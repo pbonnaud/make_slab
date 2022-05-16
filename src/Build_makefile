@@ -1,0 +1,154 @@
+#!/bin/bash -f
+
+rm -f Makefile
+
+echo '# Master makefile for POSTLAMMPS                                        ' >  Makefile
+echo '# Author: P. Bonnaud SEPTEMBER 2017                                     ' >> Makefile
+echo '#                                                                       ' >> Makefile          
+echo '#=======================================================================' >> Makefile
+echo '# Define default settings                                               ' >> Makefile
+echo '#=======================================================================' >> Makefile
+echo '                                                                        ' >> Makefile
+echo '.SUFFIXES: .F90                                                         ' >> Makefile
+echo '.SUFFIXES: .f90                                                         ' >> Makefile
+echo '                                                                        ' >> Makefile
+echo '#=======================================================================' >> Makefile
+echo '# Define object files                                                   ' >> Makefile
+echo '                                                                        ' >> Makefile
+
+rm -f tmp
+
+ls | grep '.f90' >  tmp
+ls | grep '.F90' >> tmp
+
+NLINES=`cat tmp | wc -l`
+
+echo 'THERE IS '$NLINES' files'
+
+VAROBJ='OBJS ='
+
+icount=0
+
+iprog=0
+
+while read line
+do
+    newline=`echo $line | tr '.f90' '.o  '`
+
+    if [[ $line == *"module_"* ]]; then
+        newline=`echo $line | tr '.F90' '.o  '`
+    fi
+
+    VAROBJ=$VAROBJ' '$newline
+
+    icount=$((icount+1));
+    iprog=$((iprog+1));
+
+    if [ $icount = 3 ] && [ $iprog -lt $NLINES ]; then
+        VAROBJ=$VAROBJ'\ '
+        echo $VAROBJ >> Makefile
+        icount=0
+        VAROBJ=''
+    fi
+
+    if [ $iprog = $NLINES ]; then
+        echo $VAROBJ >> Makefile
+        break;
+    fi
+
+done < tmp
+
+echo '                                                                      ' >> Makefile
+echo '#=====================================================================' >> Makefile
+echo '                                                                      ' >> Makefile
+
+VARMODULE='MODULE ='
+
+icount=0
+
+iprog=0
+
+while read line
+do
+
+    if [[ $line == *"module_"* ]]; then
+        echo $line
+        newline=`echo $line | tr '.F90' '.mod  '`
+
+        VARMODULE=$VARMODULE' '$newline
+
+        icount=$((icount+1));
+    fi
+
+    iprog=$((iprog+1));
+
+
+    if [ $icount = 3 ] && [ $iprog -lt $NLINES ]; then
+        VARMODULE=$VARMODULE'\ '
+        echo $VARMODULE >> Makefile
+        icount=0
+        VARMODULE=''
+    fi
+
+    if [ $iprog = $NLINES ]; then
+        echo $VARMODULE >> Makefile
+        break;
+    fi
+
+done < tmp
+
+echo '                                                                      ' >> Makefile
+echo '#=====================================================================' >> Makefile
+
+echo '# Define targets                                                      ' >> Makefile
+echo '                                                                      ' >> Makefile
+echo 'all: SLAB_AMD.exe                                                     ' >> Makefile
+echo '                                                                      ' >> Makefile
+echo 'SLAB_AMD.exe: $(MODULE) $(OBJS)                                       ' >> Makefile
+echo '	ifort -O3 -o SLAB_AMD.exe $(OBJS)                                   ' >> Makefile
+###echo '	mpif90 -fno-range-check -O3 -o SLAB_AMD.exe $(OBJS)                                  ' >> Makefile
+echo '                                                                      ' >> Makefile
+####echo '.f90.mod:                                                             ' >> Makefile 
+####echo '	ifort -c $<                                                         ' >> Makefile
+
+while read line
+do
+
+    if [[ $line == *"module_"* ]]; then
+        echo $line
+        newline=`echo $line | tr '.F90' '.mod  '`
+        echo $newline
+
+        newline=`echo $newline: '$(MODULE)' $line`
+        echo $newline >> Makefile
+        echo '	ifort -c '$line   >> Makefile
+###        echo '	mpif90 -fno-range-check  -c '$line   >> Makefile
+        echo '                                                                      ' >> Makefile
+
+        icount=$((icount+1));
+    fi
+
+    iprog=$((iprog+1));
+
+    if [ $iprog = $NLINES ]; then
+        break;
+    fi
+
+done < tmp
+
+
+
+echo '                                                                      ' >> Makefile
+echo '.f90.o:                                                               ' >> Makefile 
+echo '	ifort -c $<                                                         ' >> Makefile
+###echo '	mpif90 -fno-range-check  -c $<                                                        ' >> Makefile
+echo '                                                                      ' >> Makefile
+echo '.F90.o:                                                               ' >> Makefile
+echo '	ifort -c $<                                                         ' >> Makefile
+###echo '	mpif90 -fno-range-check  -c $<                                                        ' >> Makefile
+echo '                                                                      ' >> Makefile
+echo 'clean:                                                                ' >> Makefile
+echo '	rm -f *.o *.mod                                                     ' >> Makefile 
+
+rm -f tmp
+

@@ -1,0 +1,18 @@
+#!/bin/csh -f
+
+rm -f log
+
+echo 'COMPILATION 1'
+
+ifort -O3 *.f90 -o SLAB_AMD.exe
+
+echo
+echo 'COMPILATION 2'
+echo
+
+ifort -O3 *.f90 -o SLAB_AMD.exe
+
+echo 'COMPILATION AMD OK'
+
+
+

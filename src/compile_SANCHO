@@ -1,0 +1,32 @@
+#!/bin/csh -f
+
+rm -f log
+
+echo 'COMPILATION 1'
+
+ /opt/intel/Compiler/11.1/073/bin/ia32/ifort *.f90 -o SLAB100_P4.exe
+
+echo
+echo 'COMPILATION 2'
+echo
+
+ /opt/intel/Compiler/11.1/073/bin/ia32/ifort *.f90 -o SLAB100_P4.exe
+
+echo
+echo 'COMPILATION P4 OK'
+echo
+
+echo 'COMPILATION 1'
+
+ifort -O3 *.f90 -o SLAB100_AMD.exe
+
+echo
+echo 'COMPILATION 2'
+echo
+
+ifort -O3 *.f90 -o SLAB100_AMD.exe
+
+echo 'COMPILATION AMD OK'
+
+
+
