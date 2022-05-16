@@ -1,0 +1,107 @@
+###################################################################################################
+##                                       INPUT FILE FOR MKSLAB                                   ##
+###################################################################################################
+
+                                                                                         05/26/2011
+
+3                              ! METHOD TO BUILD THE MOLECULAR CONFIGURATION [1: FROM A LIBRARY; 2: FROM A FILE IN THE WORKING DIRECTORY; 3: FROM INPUT CONFIGURATION]
+  45.639980  47.496398  150.00 ! DIMENSIONS OF THE INITIAL SIMULATION BOX: A [A]; B [A]; C [A]
+  90.00      90.00       90.00 ! ANGLES IN THE INITIAL SIMULATION BOX: ALPHA [DEG]; BETA [DEG]; GAMMA [DEG]
+0    padua               1     ! NUMBER OF MOLECULE TYPE TO INSERT; FILE FORMAT OF THE ATOMIC COORDINATES; Molecule ID [0: No; 1: Yes]
+0    lammps                    ! NUMBER OF MOLECULE TYPE TO REMOVE; FILE FORMAT OF THE ATOMIC COORDINATES
+0                              ! NUMBER OF DUMMY PARTICLE TYPE TO INSERT
+350                            ! TARGET TEMPERATURE FOR THE SIMULATIONS [K]
+52385453                       ! SEED FOR THE RANDOM GENERATOR
+16      atoms.data_new         ! Switch atom IDs | Number of atom IDs to switch | Name of the configuration file where the switch has to be performed
+18      2
+19      3
+20      4
+21      5
+22      6
+23      7
+24      8
+25      9
+26     10
+27     11
+28     12
+29     13
+30     14
+31     15
+32     16 
+33     17
+12                             ! Switch bond IDs
+13      1
+14      2
+15      3
+16      4
+17      5
+18      6
+19      7
+20      8
+21      9
+22     10
+23     11
+24     12
+20                             ! Switch angle IDs
+21      1
+22      2
+23      3
+24      4
+25      5
+26      6
+27      7
+28      8
+29      9
+30     10
+31     11
+32     12
+33     13
+34     14
+35     15
+36     16
+37     17
+38     18
+39     19
+40     20
+27                             ! Switch dihedral IDs
+28      1    
+29      2
+30      3
+31      4
+32      5
+33      6
+34      7
+35      8
+36      9
+37     10
+38     11
+39     12
+40     13
+41     14
+42     15
+43     16
+44     17
+45     18
+46     19
+47     20
+48     21
+49     22
+50     23
+51     24
+52     25
+53     26
+54     27
+0      atoms.data_new
+
+####10   c4c1im              1     ! NUMBER OF MOLECULES TO INSERT; NAME OF THE FILE IN THE LIBRARY; INSERTION METHOD [0: AS IT IS; 1: RANDOM; 2; AT THE DEFINED LOCATION OF THE COM]
+####10   ntf2                1     !
+
+
+
+###z   -19.00    19.00
+
+
+###0    atoms.data_new            ! INSERTION IN AN EXISTING SIMULATION BOX  
+
+
+###0   0                          ! DEFINE REGIONS FOR THE INSERTION OF MOLECULES

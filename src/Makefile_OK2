@@ -1,0 +1,74 @@
+# Master makefile for POSTLAMMPS                                        
+# Author: P. Bonnaud SEPTEMBER 2017                                     
+#                                                                       
+#=======================================================================
+# Define default settings                                               
+#=======================================================================
+                                                                        
+.SUFFIXES: .F90                                                         
+.SUFFIXES: .f90                                                         
+                                                                        
+#=======================================================================
+# Define object files                                                   
+                                                                        
+OBJS = ALLOCATE_CONFIG_ARRAYS.o ALLOCATE_LIBRARY_ARRAYS.o APPLY_BUILD_CELLBOX.o \
+APPLY_ION_INSERTION.o APPLY_MODIFICATION.o APPLY_PBC.o \
+APPLY_PLATELET.o APPLY_REBUILD_SILICA_CHAINS.o APPLY_REBUILD_WATER.o \
+APPLY_REBUILD_WATER_Hw.o APPLY_REPLICA_CREATION.o APPLY_TRANSLATION.o \
+BUILD_PRIMITIVE_CELL.o BUILD_SUPER_CELL.o CHECK_DISTANCES.o \
+CHECK_ELECTRONEUTRALITY.o CHECK_FILE_LIBRARY.o CHECK_OVERLAPPING_ATOMS.o \
+CHECK_SILICACHAINS.o data_in.o DEALLOCATE_LIBRARY_ARRAYS.o \
+MAKE_PROGRAM_TITLE.o MAKE_ROUTINE_TITLE.o MAKE_SUPCELLCONF.o \
+MANA_ERROR.o module_config.o module_library.o \
+module_physical_constants.o module_size_arrays.o RANDOM_INSERTION_MOLECULE.o \
+READ_CONFIG.o READ_DATA.o READ_FIELD.o \
+READ_FILE_LIBRARY.o READ_INPUT.o READ_INTERATOMIC_POTENTIALS_TEMPLATE.o \
+READ_LAMMPS_TEMPLATE.o SET_CENTROSYM.o SET_CONFIG.o \
+SET_PASSAGE.o SET_PBC.o SET_ROTATION_MATRIX.o \
+SET_TRANSLATION.o SLAB.o TOOLS.o \
+WRITE_CONFIG.o WRITE_DATA.o WRITE_ERROR_MESSAGE.o \
+WRITE_FIELD.o WRITE_FINAL_CONFIG.o WRITE_LAMMPS_CONFIG.o \
+WRITE_XYZ_CONFIG.o
+                                                                      
+#=====================================================================
+
+MODULE = data_in.mod  module_config.mod module_library.mod  \
+         module_physical_constants.mod  module_size_arrays.mod
+
+#=====================================================================
+
+# Define targets                                                      
+
+all: SLAB_AMD.exe                                                    
+
+module_size_arrays.mod: module_size_arrays.f90
+	ifort -c module_size_arrays.f90
+
+data_in.mod: data_in.f90
+	ifort -c data_in.f90                                                         
+                            
+module_config.mod: module_size_arrays.mod  module_config.f90
+	ifort -c module_config.f90
+
+module_library.mod: module_library.f90
+	ifort -c module_library.f90
+
+module_physical_constants.mod: module_physical_constants.f90
+	ifort -c module_physical_constants.f90
+                                                                      
+SLAB_AMD.exe: $(MODULE) $(OBJS)                                                 
+	ifort -O3 -o SLAB_AMD.exe $(OBJS)                                   
+                                          
+
+ 
+.f90.o:                                                               
+	ifort -c $<                                                         
+                                                                      
+.F90.o:                                                               
+	ifort -c $<    
+
+clean:                                                                
+	rm -f *.o *.mod                                                     
+
+
+                                                     

@@ -1,0 +1,25 @@
+###################################################################################################
+##                                       INPUT FILE FOR MKSLAB                                   ##
+###################################################################################################
+
+                                                                                         05/26/2011
+
+1                              ! METHOD TO BUILD THE INITIAL MOLECULAR CONFIGURATION [1: FROM A LIBRARY; 2: FROM A FILE IN THE WROKING DIRECTORY; 3: FROM INPUT PARAMETERS]
+  45.639981  47.496397  150.00 ! DIMENSIONS OF THE INITIAL SIMULATION BOX: A [A]; B [A]; C [A]
+  90.00      90.00       90.00 ! ANGLES IN THE INITIAL SIMULATION BOX: ALPHA [DEG]; BETA [DEG]; GAMMA [DEG]
+2    padua               1     ! NUMBER OF MOLECULE TYPE TO INSERT; FILE FORMAT OF THE ATOMIC COORDINATES; Molecule ID [0: No; 1: Yes]
+50   c4c1im              1     ! NUMBER OF MOLECULES TO INSERT; NAME OF THE FILE IN THE LIBRARY; INSERTION METHOD [0: AS IT IS; 1: RANDOM; 2; AT THE DEFINED LOCATION OF THE COM]
+50   ntf2                1     !
+1    atoms.data_new            ! INSERTION IN AN EXISTING SIMULATION BOX  
+1   1                          ! DEFINE REGIONS FOR THE INSERTION OF MOLECULES
+z   -19.00    19.00
+0      lammps                  ! NUMBER OF MOLECULE TYPE TO REMOVE; FILE FORMAT OF THE ATOMIC COORDINATES
+0                              ! NUMBER OF DUMMY PARTICLE TYPE TO INSERT
+350                            ! TARGET TEMPERATURE FOR THE SIMULATIONS [K]
+52385453                       ! SEED FOR THE RANDOM GENERATOR
+0   atoms.data_new
+0
+0
+0
+0   atoms.data_new
+
